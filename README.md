@@ -1,7 +1,7 @@
 # QYProgressHUD
 
 ## 使用方法:
-##### 直接调用类方法`[QYProgressHUD show]`来展示加载动画, 调用类方法`[QYProgressHUD dismiss]`隐藏动画.    
+#### 直接调用类方法`[QYProgressHUD show]`来展示加载动画, 调用类方法`[QYProgressHUD dismiss]`隐藏动画.    
 * 展示和隐藏动画的时候无需关心线程问题，内部已经做了相关处理；
 * 支持旋转屏幕，动画视图会跟随屏幕旋转；
 * 加载动画期间`userInteractionEnabled = NO`，默认禁止交互;
@@ -36,20 +36,20 @@ dismiss loading animation.
 * `foregroundView`HUD动画背景：设计这一层是为了以后项目有新需求，可以直接在该视图层进行拓展；
 * `activityIndicator`小菊花动画：采用的系统视图。
 
-##### 当调用类方法`show`展现动画时，先执行单例方法，返回单例对象；然后调用实例方法`qy_startAnimating`添加加载动画。
+#### 当调用类方法`show`展现动画时，先执行单例方法，返回单例对象；然后调用实例方法`qy_startAnimating`添加加载动画。
 ```
 + (void)show {
     [[self sharedInstance] qy_startAnimating];
 }
 ```
-##### 因为实例方法`qy_startAnimating`中要进行视图添加、动画等操作，所以包裹在主线程中执行的。在该方法中添加了屏幕旋转的通知。
+#### 因为实例方法`qy_startAnimating`中要进行视图添加、动画等操作，所以包裹在主线程中执行的。在该方法中添加了屏幕旋转的通知。
 ```
 [[NSNotificationCenter defaultCenter] addObserver:self
                                          selector:@selector(qy_positionHUD:)
                                              name:UIApplicationDidChangeStatusBarOrientationNotification
                                            object:nil];
 ```
-##### 此处借鉴的是MBProgressHUD中的方法，屏幕旋转时重置坐标系，因iOS8以前机制不同，进行了特殊处理。
+#### 此处借鉴的是MBProgressHUD中的方法，屏幕旋转时重置坐标系，因iOS8以前机制不同，进行了特殊处理。
 ```
 - (void)qy_positionHUD:(NSNotification *)notification {
     self.frame = [UIApplication sharedApplication].delegate.window.bounds;
@@ -68,7 +68,7 @@ dismiss loading animation.
 #endif
 }
 ```
-##### 遍历项目中所有Window，把动画视图添加到最上层的Window。
+#### 遍历项目中所有Window，把动画视图添加到最上层的Window。
 ```
 - (UIWindow *)frontWindow {
     NSEnumerator *frontToBackWindows = [UIApplication.sharedApplication.windows reverseObjectEnumerator];
@@ -84,14 +84,14 @@ dismiss loading animation.
 return nil;
 }
 ```
-##### 调用类方法`dismiss`移除动画，先执行单例方法，返回单例对象；然后调用实例方法`qy_stopAnimating`移除加载动画；该方法主要做了移除通知，移除视图等操作。
+#### 调用类方法`dismiss`移除动画，先执行单例方法，返回单例对象；然后调用实例方法`qy_stopAnimating`移除加载动画；该方法主要做了移除通知，移除视图等操作。
 ```
 + (void)dismiss {
     [[self sharedInstance] qy_stopAnimating];
 }
 ```
 
-##### 具体的实现细节请查看源码，如有不足，欢迎指正！
+#### 具体的实现细节请查看源码，如有不足，欢迎指正！
 
 
 ## Requirements
