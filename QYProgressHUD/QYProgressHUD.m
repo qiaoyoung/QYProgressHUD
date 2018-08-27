@@ -63,10 +63,11 @@ static QYProgressHUD *_instanceObj = nil;
 
 #pragma mark - Animation
 - (void)qy_startAnimating {
+    if (self.activityIndicator.isAnimating) return;
     __weak QYProgressHUD *weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong QYProgressHUD *strongSelf = weakSelf;
-        if (strongSelf) {
+        if (strongSelf && !strongSelf.superview) {
             // Add subviews to superview.
             [strongSelf.frontWindow addSubview:strongSelf];
             [strongSelf addSubview:strongSelf.backgroundView];
@@ -89,10 +90,11 @@ static QYProgressHUD *_instanceObj = nil;
     });
 }
 - (void)qy_stopAnimating {
+    if (!self.activityIndicator.isAnimating) return;
     __weak QYProgressHUD *weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
         __strong QYProgressHUD *strongSelf = weakSelf;
-        if (strongSelf) {
+        if (strongSelf && strongSelf.superview) {
             // Remove observer for Remove observer.
             [[NSNotificationCenter defaultCenter] removeObserver:strongSelf];
             // Dissmass animation.
