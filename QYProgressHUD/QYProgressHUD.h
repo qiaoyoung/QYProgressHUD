@@ -14,7 +14,6 @@
  show loading request animation.
  */
 + (void)show;
-
 /**
  dismiss loading animation.
  */
