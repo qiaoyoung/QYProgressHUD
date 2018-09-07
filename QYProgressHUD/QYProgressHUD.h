@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QYProgressHUD : UIView
+@interface QYProgressHUD : UIWindow
 
 /**
  show loading request animation.
@@ -18,6 +18,5 @@
  dismiss loading animation.
  */
 + (void)dismiss;
-
 
 @end
